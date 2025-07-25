@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Health Moni</title>
+
+        <!-- Material Icon -->
+        <link rel="shortcut icon" href="../src/ico/logo.ico">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/6970e19c66.js" crossorigin="anonymous"></script>
+
+        <!-- Chart JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/booking.css">
+        <link rel="stylesheet" href="../css/doctors.css">
+        <link rel="stylesheet" href="../css/dataview.css">
+        <!-- Function -->
+       <!-- <script src="../js/home.js"></script> -->
+        <!--<script src="../js/booking.js"></script> -->
+        <style>
+            .meetingLink:hover{
+                color: #2E87A3;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <aside id="aside">
+                <div class="top">
+                    <div class="logo">
+                        <img src="../src/png/logo.png">
+                        <h2>Health<span class="logoKey">Moni</span></h2>
+                    </div>
+                    <div class="close" id="close-btn">
+                        <span class="material-icons">close</span>
+                    </div>
+                </div>
+                 <div class="sidebar">
+                    <a id="menu_home" href="./home.html">
+                        <span class="material-icons" >home</span>
+                        <h3>Home</h3>
+                    </a>
+                    <a id="menu_data" href="./dataview.html">
+                        <span class="material-icons">query_stats</span>
+                        <h3>Dataview</h3>
+                    </a>
+                     <a id="menu_booking" class="active" href="./booking.html">
+                         <span class="material-icons">calendar_month</span>
+                         <h3>Booking</h3>
+                     </a>
+                     <a id="menu_doctors"  href="./doctor.html">
+                         <span class="material-icons">diversity_1</span>
+                         <h3>Doctors</h3>
+                     </a>
+                     <a id="menu_logout" href="index.html">
+                         <span class="material-icons">logout</span>
+                         <h3>Logout</h3>
+                     </a>
+                 </div>
+            </aside>
+
+            <!-----------Main------------>
+            <main>               
+                 <form >
+                    <!-- <input type="hidden" name="doctorName" value="">
+                    <input type="hidden" name="medicalSpecialty" value=""> -->
+                    <fieldset>
+                        <legend id = "doctor-choose">The doctor that you chose</legend>
+                        <div >
+                            <ol class="image-list grid-view" style = "width:50%;" >
+                            </ol>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend id="appointment-today">Your appointments today</legend>
+                    </fieldset>                   
+                    <div class="table-wrapper">
+                        <table class="fl-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Doctor name</th>
+                                    <th>Medical specialty</th>
+                                    <th>Meeting link</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rows_1">
+                            <tbody>
+
+                        </table>
+                    </div>
+                    <fieldset>
+                        <legend>Your appointments</legend>
+                    </fieldset>                   
+                    <div class="table-wrapper">
+                        <table class="fl-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Doctor name</th>
+                                    <th>Medical specialty</th>
+                                    <th>Meeting link</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rows">
+                                
+                            <tbody>
+
+                        </table>
+                    </div>
+                    <fieldset>
+                    <legend>Appointment request</legend>
+                    <div class="two-cols">
+                        <label>
+                        Date
+                        <input type="datetime-local" id = "appointmentDate" placeholder="Click to choose meeting date" required>
+                        </label>
+
+                    </div>
+
+                    </fieldset>
+                    <div class="btns">
+                    <input type="text" name="_gotcha" value="" style="display:none;">
+                    <input type="submit"  id ="submitButton" value="Submit request">
+                    </div>
+                </form>
+            </main>
+            <!-- End of main -->
+
+            <div class="right">
+                <div class="top">
+                    <button id="menu-btn">
+                        <span class="material-icons">menu</span>
+                    </button>
+                    <div class="profile">
+                        <div class="info">
+                            <b id="username"></b>
+                        </div>
+                        <div class="profile-photo">
+                            <img src="">
+                        </div>
+                    </div>
+                </div>
+                <!--end of top-->
+                <div clsaa="right-btm">
+                    
+
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            flatpickr("#appointmentDate", {
+                enableTime: true,           // Cho phép chọn giờ
+                time_24hr: true,            // Hiển thị giờ theo định dạng 24 giờ
+                dateFormat: "Y-m-d H:i",    // Định dạng ngày thành dd-mm-yyyy giờ:phút
+                minuteIncrement: 1          // Điều chỉnh gia số phút (mặc định là 5 phút)
+            });
+        </script>
+        <script src="../js/booking.js"></script>
+    </body>
+</html>
+
+

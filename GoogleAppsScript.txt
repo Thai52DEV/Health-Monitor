@@ -1,0 +1,102 @@
+/**
+* @OnlyCurrentDoc
+*/
+function doGet(e) { 
+  Logger.log(JSON.stringify(e));
+  let result = 'Ok';
+
+  // Validate parameters
+  if (!e.parameter || Object.keys(e.parameter).length === 0) {
+    return ContentService.createTextOutput('No Parameters');
+  }
+
+  const sheet_name = "DATA";  // Sheet Name in Google Sheets
+
+  const sheet_target = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheet_name);
+
+  const currDate = Utilities.formatDate(new Date(), "Asia/Jakarta", 'dd/MM/yyyy HH:mm:ss');
+  let hrData = null; // To store Heart Rate data
+  let spData = null; // To store SpO2 data
+  let tpData = null; // To store Temperature data
+  let stData = null; // To store Status data
+  
+  // Process parameters
+
+  for (let param in e.parameter) {
+    Logger.log('In for loop, param=' + param);
+    const value = stripQuotes(e.parameter[param]);
+    Logger.log(param + ':' + value);
+    if (param == 'st'){
+      stData = value;
+      result += "Status Collected 1";
+      break;
+    }
+  }
+
+  for (let param in e.parameter) {
+    Logger.log('In for loop, param=' + param);
+    const value = stripQuotes(e.parameter[param]);
+    Logger.log(param + ':' + value);
+
+    switch (param) {
+      case 'hr':
+        hrData = ['HeartRate', currDate, value, stData];
+        result += ', HeartRate Collected';
+        break;
+
+      case 'sp':
+        spData = ['SpO2', currDate, value,stData];
+        result += ', SpO2 Collected';
+        break;
+      case 'tp':
+        tpData = ['Temperature', currDate, value,stData];
+        result += ', Temperature Collected';
+        break;
+      case 'st':
+        result += ', Status Collected 2 ';
+        break;
+      default:
+        result += ", unsupported parameter";
+    }
+  }
+
+
+  // Write hrData and spData and tpData and stDdata to the sheet if they exist
+  if (hrData || spData || tpData) {
+    if (hrData) {
+      sheet_target.insertRowBefore(2); // Add a new row at position 2
+      sheet_target.getRange(2, 1, 1, hrData.length).setValues([hrData]); // Write hrData
+    }
+    if (spData) {
+      sheet_target.insertRowBefore(2); // Add a new row at position 2
+      sheet_target.getRange(2, 1, 1, spData.length).setValues([spData]); // Write spData
+    }
+    if (tpData) {
+      sheet_target.insertRowBefore(2); // Add a new row at position 2
+      sheet_target.getRange(2, 1, 1, tpData.length).setValues([tpData]); // Write tpData
+    }
+    result += ', Data Written';
+  }
+
+  // Handle 'write' status (optional row-trimming logic)
+  if (e.parameter.sts === 'write') {
+    maxRowData(31); // Keep only the last 31 rows
+  }
+
+  return ContentService.createTextOutput(result);
+}
+
+function maxRowData(allRowsAfter) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet()
+                              .getSheetByName('DATA');
+
+  const lastRow = sheet.getLastRow();
+  if (lastRow > allRowsAfter) {
+    sheet.getRange(allRowsAfter + 1, 1, lastRow - allRowsAfter, sheet.getLastColumn())
+         .clearContent();
+  }
+}
+
+function stripQuotes(value) {
+  return value.replace(/^["']|['"]$/g, "");
+}
